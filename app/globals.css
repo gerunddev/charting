@@ -1,0 +1,97 @@
+:root {
+  --bg: #14161a;
+  --panel: #1c1f26;
+  --cell: #232732;
+  --line: #333846;
+  --text: #e8eaf0;
+  --muted: #8a91a3;
+  --accent: #6ea8fe;
+  --insert: #2a2320;
+  --insert-line: #7a5c3a;
+  --annot: #21302a;
+  --annot-line: #4a7a5c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+.wrap { max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
+
+header.app { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+header.app h1 { font-size: 22px; margin: 0; font-weight: 650; }
+header.app .meta { color: var(--muted); font-size: 14px; }
+
+.toolbar {
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+  padding: 12px 16px; margin: 18px 0 26px;
+}
+.toolbar label { font-size: 13px; color: var(--muted); margin-right: 8px; }
+.toolbar select, .toolbar button {
+  background: var(--cell); color: var(--text); border: 1px solid var(--line);
+  border-radius: 8px; padding: 6px 10px; font-size: 14px; cursor: pointer;
+}
+.toolbar .keypill { font-size: 15px; color: var(--accent); font-weight: 600; }
+
+/* segmented Nashville / keys toggle */
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { border: none; border-radius: 0; background: var(--cell); padding: 6px 12px; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button.active { background: var(--accent); color: #0b1220; font-weight: 600; }
+
+.section { margin-bottom: 30px; }
+.section h2 {
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted); margin: 0 0 10px;
+}
+
+.gridscroll { overflow-x: auto; padding-bottom: 6px; }
+.grid { display: grid; gap: 8px; grid-auto-rows: min-content; }
+.line { margin-bottom: 14px; }
+
+.nash sup, .chordname sup { font-size: 0.55em; font-weight: 500; }
+
+.cell {
+  position: relative;
+  grid-row: 2; background: var(--cell); border: 1px solid var(--line);
+  border-radius: 10px; padding: 12px 8px; min-height: 76px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cell .beats { display: flex; gap: 10px; align-items: baseline; }
+.cell .nash { font-size: 26px; font-weight: 650; line-height: 1; }
+/* bar number as an unobtrusive corner footnote — never affects layout */
+.cell .barnum {
+  position: absolute; bottom: 4px; right: 6px;
+  font-size: 10px; color: var(--muted); line-height: 1; pointer-events: none;
+}
+
+/* span annotation bar (row 1) */
+.annot-span {
+  grid-row: 1; align-self: end; background: var(--annot);
+  border: 1px solid var(--annot-line); border-radius: 6px;
+  font-size: 12px; padding: 3px 8px; color: #b6e6c8; text-align: center;
+}
+/* point annotation badge (row 1) */
+.annot-point {
+  grid-row: 1; align-self: end; justify-self: center;
+  font-size: 11px; color: #b6e6c8; border: 1px solid var(--annot-line);
+  border-radius: 999px; padding: 2px 8px; background: var(--annot);
+}
+
+/* insert block (row 3) sits under the measures it covers */
+.insert {
+  grid-row: 3; background: var(--insert); border: 1px solid var(--insert-line);
+  border-radius: 8px; padding: 8px 10px; overflow-x: auto;
+}
+.insert .ilabel { font-size: 11px; color: #d9b48a; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.05em; }
+.insert pre { margin: 0; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12px; line-height: 1.35; color: #e9d4b8; }
+.insert .pinned { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+.note { color: var(--muted); font-size: 13px; margin-top: 24px; line-height: 1.6; }
+.note code { background: var(--cell); padding: 1px 5px; border-radius: 4px; }

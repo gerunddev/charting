@@ -53,6 +53,7 @@ export interface Annotation {
   at?: number;
 }
 
+// The musical document itself — everything needed to render a chart.
 export interface Chart {
   title: string;
   writtenKey: string; // the key the inserts were notated in
@@ -61,4 +62,39 @@ export interface Chart {
   measures: Measure[];
   inserts: Insert[];
   annotations: Annotation[];
+}
+
+// ---------------------------------------------------------------------------
+// Catalog records (what the database stores around a Chart doc)
+
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  passwordHash: string;
+  createdAt: string;
+}
+
+// A chart in a user's private catalog.
+export interface ChartRecord {
+  id: string;
+  ownerId: string;
+  tags: string[];
+  published: boolean; // has a snapshot in the public catalog
+  createdAt: string;
+  updatedAt: string;
+  doc: Chart;
+  // set when this chart was copied from the public catalog
+  origin?: { publishedId: string; ownerName: string };
+}
+
+// A published snapshot in the public catalog. Publishing copies the doc, so
+// later private edits don't change the public version until republished.
+export interface PublishedChart {
+  id: string; // same id as the source ChartRecord
+  ownerId: string;
+  ownerName: string;
+  tags: string[];
+  publishedAt: string;
+  doc: Chart;
 }

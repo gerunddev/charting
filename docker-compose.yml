@@ -1,0 +1,16 @@
+services:
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: charting-dynamodb
+    # The named volume is root-owned; the image's default user can't write to
+    # it, which crash-loops the SQLite backend. Root is fine for local dev.
+    user: root
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data"
+    ports:
+      - "8000:8000"
+    volumes:
+      - dynamodb-data:/home/dynamodblocal/data
+    working_dir: /home/dynamodblocal
+
+volumes:
+  dynamodb-data:

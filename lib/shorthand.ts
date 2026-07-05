@@ -40,6 +40,18 @@ export function parseChordToken(token: string): Chord {
   return chord;
 }
 
+// One bar's text ("1", "6m 4") → chords, with beats split for multi-chord bars.
+export function parseBar(bar: string): Chord[] {
+  const text = bar.trim();
+  if (!text) throw new Error("Empty bar");
+  const chords = text.split(/\s+/).map(parseChordToken);
+  if (chords.length > 1) {
+    const beats = 4 / chords.length; // assumes 4/4 for split bars — fine for the prototype
+    for (const c of chords) c.beats = beats;
+  }
+  return chords;
+}
+
 // One section line → array of bars (each bar = chords).
 export function parseSectionLine(line: string): Chord[][] {
   const bars = line
@@ -47,14 +59,7 @@ export function parseSectionLine(line: string): Chord[][] {
     .map((b) => b.trim())
     .filter((b) => b.length > 0);
   if (bars.length === 0) throw new Error("Section has no bars");
-  return bars.map((bar) => {
-    const chords = bar.split(/\s+/).map(parseChordToken);
-    if (chords.length > 1) {
-      const beats = 4 / chords.length; // assumes 4/4 for split bars — fine for the prototype
-      for (const c of chords) c.beats = beats;
-    }
-    return chords;
-  });
+  return bars.map(parseBar);
 }
 
 // Build the sections+measures of a Chart doc from editor rows.

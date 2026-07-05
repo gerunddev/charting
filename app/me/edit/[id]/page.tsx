@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation";
-import Editor from "@/components/Editor";
+import WysiwygEditor from "@/components/WysiwygEditor";
 import { currentUser } from "@/lib/auth";
 import { getChart } from "@/lib/repo";
 
@@ -20,10 +20,11 @@ export default async function EditChart({
       <header className="app">
         <h1>Edit chart</h1>
         <span className="meta">
-          {record.published ? "published — republish after saving to update the public copy" : "private"}
+          autosaves as you edit ·{" "}
+          {record.published ? "published — republish from My charts to update the public copy" : "private"}
         </span>
       </header>
-      <Editor record={record} />
+      <WysiwygEditor record={record} />
     </div>
   );
 }
